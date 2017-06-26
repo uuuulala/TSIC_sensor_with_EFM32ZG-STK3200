@@ -4,6 +4,10 @@ TSic206/306/506 digital temperature sensor reading with EFM32ZG-STK3200 board.
 
 Every time the button #1 is pushed we power up the sensor, read temperature value, unpower the sensor and update information at the display.
 
+[![TSIC sensor with EFM32ZG STK3200 board](https://habrastorage.org/web/838/4a1/51e/8384a151ec07408991a440436a250cd1.PNG)](https://youtu.be/Gf35uOftPwY "TSIC sensor with EFM32ZG STK3200 board")
+
+click to open the video
+
 <b>The code isn't optimized for low energy consuption as any EFM32 programm could be. Even timer interruptions were not used here :) 
 So the only target is to provide simple and understandable code for TSic sensor.</b>
 
