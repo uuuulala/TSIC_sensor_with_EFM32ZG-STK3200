@@ -120,14 +120,11 @@ int8_t readTSicPacket(bool isTheFirstPacket) {
 	myTIMER_Stop();
 
 	/*
-	 * Check if start bit start bit has occurred:
-	 *
-	 * As Tstrobe = 125 us / 2 = 62.5 us,  we need to check if the signal is
-	 * low for about Tstrobe time and then goes high for about Tstrobe time.
+	 * Receive 8 data bits + 1 parity bit
 	 */
 	for (uint8_t i = 0; i <= 8; i++) {
 
-		/* Wait for exact Tstrobe time to check line state */
+		/* Wait for exact Tstrobe time to check the line state */
 		myTIMER_Start(NO_PRESCALER);
 		while (TIMER_COUNTER < TSTROBE_TICKS) {
 		}
@@ -140,9 +137,6 @@ int8_t readTSicPacket(bool isTheFirstPacket) {
 		}
 
 		/* Wait until the end of one-bit-timeframe.
-		 *
-		 * Last bit (parity bit) doesn't end up with falling edge so we shouldn't
-		 * wait for it.
 		 */
 		if (TSIC_DATA_LOW) {
 			myTIMER_Start(NO_PRESCALER);
@@ -153,6 +147,9 @@ int8_t readTSicPacket(bool isTheFirstPacket) {
 			}
 			myTIMER_Stop();
 		}
+		/* Last bit (parity bit) doesn't end up with falling edge so we should
+		 * wait for the next falling edge just for data bits.
+		 */
 		if (i != 8) {
 			myTIMER_Start(NO_PRESCALER);
 			while (TSIC_DATA_HIGH) {
@@ -168,7 +165,7 @@ int8_t readTSicPacket(bool isTheFirstPacket) {
 }
 
 /**************************************************************************//**
- * Temperature conversion from uint16_t to float in °C
+ * Temperature conversion from uint16_t to float in Â°C
  *****************************************************************************/
 float calculateCelsius(uint16_t transmissionData) {
 	/* TSic20x / 30x sensors: LT = -50, HT = 150, Digital output 11 bit */
@@ -252,7 +249,7 @@ int8_t receiveTSicData(void) {
  *  - Power TSic sensor
  *  - Receive TSic data
  *  - Unpower TSic sensor
- *  - Calculate temperature in °C and show it OR show error message
+ *  - Calculate temperature in Â°C and show it OR show error message
  *****************************************************************************/
 void ReceiveTempAndShowIt(void) {
 	GPIO_PinOutSet(TSIC_VDD_PORT, TSIC_VDD_PIN);
