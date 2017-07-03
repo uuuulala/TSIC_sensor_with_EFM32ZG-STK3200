@@ -31,7 +31,7 @@ Since the sensor is powered on you can receive temperature data using ZACwire pr
 
 ![transmission](http://i.imgur.com/uSnoSVw.png)
 
-Here you can see example of real scillogram:
+Here you can see example of real oscillogram:
 
 ![osc1](http://i.imgur.com/8PAOlPT.png) ![osc2](http://i.imgur.com/34kow0J.png)
 
